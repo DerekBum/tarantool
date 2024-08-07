@@ -78,6 +78,11 @@ Since Tarantool version 3.2 keys could be added to the storage with the
 specified TTL. The keys guaranteed not to expire early, but they could live a
 bit longer than expected due to communications between replicas and master.
 
+If the schema used by the user is not updated, any request with specified TTL
+will end with an error. To check, if the schema needs an update, use
+`box.internal.schema_needs_upgrade()`. To update the schema, use
+`box.schema.update()` and `box.snapshot()`.
+
 Each expired key generates a delete event. This means that each expiration bumps
 the storage revision and wakes up watchers.
 
